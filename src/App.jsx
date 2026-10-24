@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import words from "./words4.json";
+import "./App.css";
 
 const wordSet = new Set(words);
 const wordArray = Array.from(wordSet);
@@ -173,45 +174,104 @@ function App() {
     stats.gamesWon === 0 ? 0 : stats.totalMoves / stats.gamesWon;
 
   return (
-    <div>
-      <h1>Word Ladder</h1>
+    <div className="app">
+      <main className="game-container">
+        <header className="game-header">
+          <h1 className="eyebrow">WORD LADDER</h1>
 
-      <h2>Statistics</h2>
-      <p>Games played: {stats.gamesPlayed}</p>
-      <p>Games won: {stats.gamesWon}</p>
-      <p>Win rate: {winRate.toFixed(1)}%</p>
-      <p>Average moves per win: {averageMoves.toFixed(1)}</p>
+          <p className="subtitle">
+            Change one letter at a time to reach the target word.
+          </p>
+        </header>
 
-      <hr />
+        <section className="stats">
+          <h2>Your Statistics</h2>
 
-      <p>Starting word: {word1}</p>
-      <p>Target word: {word2}</p>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span>Played: </span>
+              <strong>{stats.gamesPlayed}</strong>
+            </div>
 
-      <div>
-        {wordChain.map((w, index) => (
-          <p key={index}>{w}</p>
-        ))}
-      </div>
+            <div className="stat-item">
+              <span>Won: </span>
+              <strong>{stats.gamesWon}</strong>
+            </div>
 
-      <label>
-        Enter word:
-        <input
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          disabled={gameWon || wordChain.length === 0}
-        />
-      </label>
+            <div className="stat-item">
+              <span>Win rate: </span>
+              <strong>{winRate.toFixed(1)}%</strong>
+            </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={gameWon || wordChain.length === 0}
-      >
-        Submit
-      </button>
+            <div className="stat-item">
+              <span>Avg. moves: </span>
+              <strong>{averageMoves.toFixed(1)}</strong>
+            </div>
+          </div>
+        </section>
 
-      {gameWon && <p>Congratulations! You won!</p>}
+        <section className="word-display">
+          <div className="word-box">
+            <span>Starting word</span>
+            <strong>{word1.toUpperCase()}</strong>
+          </div>
 
-      <button onClick={startNewGame}>New Game</button>
+          <div className="arrow">→</div>
+
+          <div className="word-box target-box">
+            <span>Target word</span>
+            <strong>{word2.toUpperCase()}</strong>
+          </div>
+        </section>
+
+        <section className="word-chain">
+          <h2>Your Word Chain</h2>
+
+          <div className="chain-list">
+            {wordChain.map((word, index) => (
+              <div className="chain-word" key={index}>
+                <span>{word.toUpperCase()}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <form
+          className="word-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
+          <label htmlFor="word-input">Enter your next word</label>
+
+          <input
+            id="word-input"
+            type="text"
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            disabled={gameWon || wordChain.length === 0}
+            placeholder="e.g. COLD"
+            maxLength={4}
+            autoComplete="off"
+          />
+
+          <button type="submit" disabled={gameWon || wordChain.length === 0}>
+            Submit Word
+          </button>
+        </form>
+
+        {gameWon && (
+          <p className="win-message">
+            🎉 Congratulations! You reached the target!
+          </p>
+        )}
+
+        <br></br>
+        <button className="new-game-button" onClick={startNewGame}>
+          New Game
+        </button>
+      </main>
     </div>
   );
 }
