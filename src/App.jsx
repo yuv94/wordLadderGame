@@ -225,7 +225,7 @@ function App() {
         </section>
 
         <section className="word-chain">
-          <h2>Your Word Chain</h2>
+          <h2>Word Chain</h2>
 
           <div className="chain-list">
             {wordChain.map((word, index) => (
@@ -243,7 +243,7 @@ function App() {
             handleSubmit();
           }}
         >
-          <label htmlFor="word-input">Enter your next word</label>
+          <label htmlFor="word-input">Enter next word</label>
 
           <input
             id="word-input"
@@ -261,11 +261,7 @@ function App() {
           </button>
         </form>
 
-        {gameWon && (
-          <p className="win-message">
-            🎉 Congratulations! You reached the target!
-          </p>
-        )}
+        {gameWon && <p className="win-message">Target Word Reached !!</p>}
 
         <br></br>
         <button className="new-game-button" onClick={startNewGame}>
